@@ -25,7 +25,22 @@ const breakBrackets = (str, first, last) => {
     return [str]
   }
 
-  const firstIndex = str.indexOf(first)
+  let firstIndex
+  let cursor = str.length - 1
+  // There is already the last one
+  let count = 1
+  while (-- cursor >= 0) {
+    const char = str.charAt(cursor)
+    if (char === last) {
+      count ++
+    } else if (char === first) {
+      if (-- count === 0) {
+        firstIndex = cursor
+        break
+      }
+    }
+  }
+
   return [
     str.slice(0, firstIndex),
     str.slice(firstIndex + 1, - 1)

@@ -46,6 +46,19 @@ const CASES = [
       t.is(source, __filename)
       t.is(evalTrace.source, '<anonymous>')
     }
+  ],
+  [
+    'travis build #2',
+    `Error: foo
+    at extensions.(anonymous function) (a.js:13:11)`,
+    (t, {
+      traces: [
+        {callee, source}
+      ]
+    }) => {
+      t.is(callee, 'extensions.(anonymous function)')
+      t.is(source, 'a.js')
+    }
   ]
 ]
 
