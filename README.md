@@ -15,7 +15,7 @@
 
 # error-stack
 
-Parse and manipulate error.stack
+Parse and manipulate `error.stack`
 
 ## Install
 
@@ -26,8 +26,79 @@ $ npm i error-stack
 ## Usage
 
 ```js
-const error_stack = require('error-stack')
+const parse = require('error-stack')
+const {stack} = new Error('foo')
+
+console.log(stack)
+// Error: foo
+//     at repl:1:11
+//     at Script.runInThisContext (vm.js:123:20)
+
+const parsed = parse()
+
+parsed.type // Error
+
+parsed.message  // foo
+
+parsed.traces
+// [
+//   {
+//     callee: undefined,
+//     source: 'repl',
+//     line: 1,
+//     col: 11
+//   },
+//   {
+//     callee: 'Script.runInThisContext',
+//     source: 'vm.js',
+//     line: 123,
+//     col: 20
+//   }
+// ]
+
+parsed
+.filter(({callee}) => !!callee)
+.format()
+// Error: foo
+//     at Script.runInThisContext (vm.js:123:20)
 ```
+
+### parsed.type `string`
+
+Error type
+
+### parsed.message `string`
+
+The message used by Error constructor
+
+### parsed.traces `Array<Trace>`
+
+```ts
+interface Source {
+  // The source of the the callee
+  source: string
+  line?: number
+  col?: number
+}
+
+interface Trace extends Source{
+  callee: string
+  // Whether the callee is 'eval'
+  eval?: boolean
+  // The source location inside eval content
+  evalTrace: Source
+}
+```
+
+### parsed.filter(filterFunction): this
+
+- **filterFunction** `Function` the same as the callback function of `Array.prototype.filter(callback)`
+
+Filters the current traces
+
+### parsed.format(): string
+
+Format object `parsed`
 
 ## License
 

@@ -21,7 +21,10 @@
     "url": "git://github.com/kaelzhang/error-stack.git"
   },
   "keywords": [
-    "error-stack"
+    "error-stack",
+    "error-stack-parser",
+    "formatter",
+    "trace"
   ],
   "engines": {
     "node": ">= 6"
@@ -38,11 +41,11 @@
     "url": "https://github.com/kaelzhang/error-stack/issues"
   },
   "devDependencies": {
-    "@ostai/eslint-config": "^3.1.0",
-    "ava": "^1.4.1",
-    "codecov": "^3.4.0",
+    "@ostai/eslint-config": "^3.2.0",
+    "ava": "^2.1.0",
+    "codecov": "^3.5.0",
     "eslint": "^5.16.0",
-    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-import": "^2.17.3",
     "nyc": "^14.1.1"
   }
 }
