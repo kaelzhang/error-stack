@@ -34,7 +34,7 @@ console.log(stack)
 //     at repl:1:11
 //     at Script.runInThisContext (vm.js:123:20)
 
-const parsed = parse()
+const parsed = parse(stack)
 
 parsed.type // Error
 
