@@ -2,17 +2,6 @@
 // Error: foo
 // 2.
 // TypeError: foo
-// 3.
-// ```js
-// class xxx123Error extends Error {}
-// new xxx123Error('foo')
-// ```
-// xxx123Error: foo
-// 4.
-// ```js
-// class r extends xxx123Error {}
-// ```
-// r [Error]: foo
 const REGEX_MATCH_MESSAGE = /^([a-z][a-z0-9_]*):\s+(.+)$/i
 
 const REGEX_REMOVE_AT = /^at\s+/
