@@ -4,6 +4,9 @@ const test = require('ava')
 const log = require('util').debuglog('error-stack')
 const parse = require('..')
 
+const mm = `a
+- b`
+
 const CASES = [
   [
     'Error',
@@ -59,6 +62,20 @@ const CASES = [
       t.is(callee, 'extensions.(anonymous function)')
       t.is(source, 'a.js')
     }
+  ],
+  [
+    'message with multiple lines',
+    new Error(mm).stack,
+    (t, {message}) => {
+      t.is(message, mm)
+    }
+  ],
+  [
+    'no stack',
+    'Error: foo',
+    (t, {message}) => {
+      t.is(message, 'foo')
+    }
   ]
 ]
 
@@ -66,8 +83,12 @@ const createTester = object => (t, parsed) => {
   t.deepEqual(parsed, object)
 }
 
-CASES.forEach(([title, stack, object], i) => {
-  test(`${title || i}`, t => {
+CASES.forEach(([title, stack, object, only], i) => {
+  const tt = only
+    ? test.only
+    : test
+
+  tt(`${title || i}`, t => {
     if (typeof stack === 'function') {
       stack = stack()
     }

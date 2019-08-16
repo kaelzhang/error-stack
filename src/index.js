@@ -1,8 +1,11 @@
+const AT = 'at'
+const CR = '\n'
+
 // 1.
 // Error: foo
 // 2.
 // TypeError: foo
-const REGEX_MATCH_MESSAGE = /^([a-z][a-z0-9_]*):\s+(.+)$/i
+const REGEX_MATCH_MESSAGE = /^([a-z][a-z0-9_]*):\s+([\s\S]+)$/i
 
 const REGEX_REMOVE_AT = /^at\s+/
 const REGEX_STARTS_WITH_EVAL_AT = /^eval\s+at\s+/
@@ -105,14 +108,15 @@ const parseTrace = (trace, testEvalSource) => {
 }
 
 const parse = stack => {
-  const [rawMessage, ...rawTrace] = stack
-  .split(/\r|\n/g)
-  .map(trim)
-  // Empty line
-  .filter(Boolean)
+  const [rawMessage, ...rawTrace] = stack.split(/\r|\n/g)
 
-  const [, type, message] = rawMessage.match(REGEX_MATCH_MESSAGE)
-  const traces = rawTrace.map(t => parseTrace(t, true))
+  // A error message might have multiple lines
+  const index = rawTrace.findIndex(line => line.trimLeft().startsWith(AT))
+
+  const messageLines = [rawMessage, ...rawTrace.splice(0, index)]
+
+  const [, type, message] = messageLines.join(CR).match(REGEX_MATCH_MESSAGE)
+  const traces = rawTrace.map(t => parseTrace(trim(t), true))
 
   return {
     type, message, traces
@@ -175,16 +179,19 @@ class ErrorStack {
 
   format () {
     const {type, message} = this
-    const firstLine = `${formatMessage({type, message})}\n`
-
-    return firstLine + this.traces.map(
+    const messageLines = `${formatMessage({type, message})}`
+    const tracesLines = this.traces.map(
       trace => `    at ${
         trace.eval
           ? formatEvalTrace(trace)
           : formatTrace(trace)
       }`
     )
-    .join('\n')
+    .join(CR)
+
+    return tracesLines
+      ? messageLines + CR + tracesLines
+      : messageLines
   }
 }
 
