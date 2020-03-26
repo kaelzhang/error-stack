@@ -30,7 +30,6 @@
     "node": ">= 6"
   },
   "ava": {
-    "babel": false,
     "files": [
       "test/*.test.js"
     ]
@@ -41,11 +40,11 @@
     "url": "https://github.com/kaelzhang/error-stack/issues"
   },
   "devDependencies": {
-    "@ostai/eslint-config": "^3.2.0",
-    "ava": "^2.1.0",
-    "codecov": "^3.5.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-import": "^2.17.3",
-    "nyc": "^14.1.1"
+    "@ostai/eslint-config": "^3.5.0",
+    "ava": "^3.5.1",
+    "codecov": "^3.6.5",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.1",
+    "nyc": "^15.0.0"
   }
 }

@@ -108,7 +108,9 @@ CASES.forEach(([title, stack, object, only], i) => {
 })
 
 test('invalid stack', t => {
-  t.throws(() => parse(), TypeError)
+  t.throws(() => parse(), {
+    instanceOf: TypeError
+  })
 })
 
 test('filter and format', t => {
