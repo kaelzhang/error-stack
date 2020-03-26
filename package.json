@@ -1,6 +1,6 @@
 {
   "name": "error-stack",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Parse and manipulate error.stack",
   "main": "src/index.js",
   "scripts": {
