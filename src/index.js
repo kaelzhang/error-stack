@@ -107,11 +107,13 @@ const parseTrace = (trace, testEvalSource) => {
   return ret
 }
 
+const validTrace = trace => (trace.line || trace.eval)
+
 const parse = stack => {
   const [rawMessage, ...rawTrace] = stack.split(/\r|\n/g)
 
   // A error message might have multiple lines
-  const index = rawTrace.findIndex(line => line.trimLeft().startsWith(AT))
+  const index = rawTrace.findIndex(line => line.trimLeft().startsWith(AT) && validTrace(parseTrace(trim(line), true)))
 
   const messageLines = [rawMessage, ...rawTrace.splice(0, index)]
 
